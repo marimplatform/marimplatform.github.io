@@ -1,2 +1,2 @@
-# marimplatform.github.io
+# Marim Platform
 Low code data service platform
