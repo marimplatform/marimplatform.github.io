@@ -1,2 +1,2 @@
-# Marim Platform
+# Marim
 Low code data service platform
