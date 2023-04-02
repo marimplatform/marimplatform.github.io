@@ -9,8 +9,6 @@ layout: default
     }
 </style>
 
-Test
-
 <div class="container">
     <div class="row text-center">
         <div class="d-flex flex-column mt-5">
