@@ -1,22 +1,10 @@
 ---
 title: Home
 layout: default
+subtitle: The best way from database queries to data services
 ---
 
-<style>
-    .orange {
-        color: orange
-    }
-</style>
-
 <div class="container">
-    <div class="row text-center">
-        <div class="d-flex flex-column mt-5">
-            <h1 class="orange">Marim Data Services Platform</h1>
-            <h3 class="mt-3">The best way from database queries to data services</h3>
-        </div>
-    </div>
-
     <div class="row mt-5">
         <div class="col-sm-4">
             <h4 class="orange">Low-code</h4>
