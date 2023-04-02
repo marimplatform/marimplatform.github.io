@@ -8,4 +8,4 @@ services:
       - .:/srv/jekyll 
     ports:
       - 4000:4000
-    command: tail -f /dev/null
+    command: jekyll serve
