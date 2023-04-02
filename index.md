@@ -49,7 +49,7 @@ layout: default
 
     <div class="row mt-5">
         <div class="col text-center">
-            Follow the <a href="/tutorial.html">tutorial</a> to learn how to easily turn database queries into data services
+            Follow the <a href="/tutorial.html">tutorial</a> to learn how to easily turn database queries into data services.
         </div>
     </div>
 </div>
