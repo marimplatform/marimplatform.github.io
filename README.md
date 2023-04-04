@@ -1,1 +1,1 @@
-# Marim Data Services Platform Website
+# Marim data services platform website
