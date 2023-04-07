@@ -15,7 +15,20 @@ docker run -it --rm -p 5432:5432 marimplatform/dvdrental
     </code>
 </pre>
 
-This tutorial makes use of a sample database. To execute it, type the command
+### Project
+{: .mt-5 }
+A Marim project is simply a directory. Therefore, type the command below to create your project
+
+<pre>
+    <code class="language-bash">
+mkdir ~/marim/project
+    </code>
+</pre>
+
+### Service specification
+{: .mt-5 }
+Create the `~/marim/project/dvdrental.marim` file with the following service specification
+
 <pre>
     <code class="language-marim">
 table Category
