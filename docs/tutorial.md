@@ -263,7 +263,10 @@ The service will respond
 
 #### Swagger UI
 {: .mt-5}
-Open the address `http://localhost:8080/swagger-ui` in a browser to visualize the service OpenAPI specification and send requests to it in a more human-friendly way through the embedded [Swagger UI](https://swagger.io/tools/swagger-ui/) application
+Open the address `http://localhost:8080/swagger-ui` in a browser to visualize 
+the service OpenAPI specification and send requests to it in a more 
+human-friendly way through the embedded 
+[Swagger UI](https://swagger.io/tools/swagger-ui/) application.
 
 <div class="text-center">
     <img src="img/swagger-ui.png" style="width: 75%">
@@ -273,4 +276,4 @@ Open the address `http://localhost:8080/swagger-ui` in a browser to visualize th
 
 #### Next steps
 {: .mt-5}
-Read the [manual](/manual.html) to learn more about Marim.
+Read the [manual](/manual.html) to learn more about Marim and start developing your own data services!
