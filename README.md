@@ -1,3 +1,3 @@
-# Marim Data Services Platform Site Content
+# Marim data services platform site content
 
-This repository houses the [Marim Data Services Platform Site](https://www.marimplatform.dev) Content.
+This repository houses the Marim data services platform [site](https://www.marimplatform.dev) content.
