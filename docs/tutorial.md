@@ -43,7 +43,7 @@ query Categories
     "
 
 query Category
-    parameter Id type integer required
+    parameter Id type integer not null
 
     result 
         table Category
