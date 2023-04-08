@@ -12,7 +12,7 @@ Welcome to the Marim tutorial! Follow the steps below to develop your first data
 {: .mt-5}
 This tutorial makes use of a sample database. To execute it, type the command
 
-<pre><code class="language-bash">docker run --rm --network host marimplatform/dvdrental</code></pre>
+<pre class="terminal">docker run --rm --network host marimplatform/dvdrental</pre>
 
 
 
@@ -20,7 +20,7 @@ This tutorial makes use of a sample database. To execute it, type the command
 {: .mt-5}
 A Marim project, i.e., a set of specification files, is simply a directory. Therefore, type the following command to create a Marim project.
 
-<pre><code class="language-bash">mkdir ./dvdrental</code></pre>
+<pre class="terminal">mkdir ./dvdrental</pre>
 
 
 
@@ -28,52 +28,48 @@ A Marim project, i.e., a set of specification files, is simply a directory. Ther
 {: .mt-5}
 Create the `./dvdrental/dvdrental.marim` file with the specification below.
 
-<pre><code class="language-marim">table Category
-    column Id         type integer
-    column Name       type string
+<pre><code class="language-marim">
+table Category                       // Declares the structure of a query result
+    column Id         type integer   // Declares a column of a query result
+    column Name       type string    // Supported datatypes are date, decimal, integer, string, time and timestamp
     column LastUpdate type timestamp
 
-source DvdRental
-    dialect  postgresql
-    driver   "org.postgresql.Driver"
-    url      "jdbc:postgresql://localhost:5432/dvdrental"
-    property "user"     "postgres"
-    property "password" "postgres"
+source DvdRental                                          // Declares a JDBC data source
+    dialect  postgresql                                   // Supported dialects are calcite, db2, mysql, oracle, postgresql, sqlserver and teradata
+    url      "jdbc:postgresql://localhost:5432/dvdrental" // JDBC URL with which the service will connect to the database
+    property "user"     "postgres"                        // The property keyword sets a JDBC driver property value
+    property "password" "postgres"                        // All JDBC drivers support the properties "user" and "password" 
 
-query Categories
-    result table Category
+query Categories                          // Declares a query
+    result table Category                 // Declares the query result structure
 
-    source DvdRental
+    source DvdRental                      // Declares the data source in which the service will execute the query
 
-    statement "
-        select category_id as Id, 
-    	       name        as Name,
-    	       last_update as LastUpdate
-    	  from category
-    "
+    statement                             // The query statement is a single or multiline string                  
+        "select category_id as Id, 
+                name        as Name,
+                last_update as LastUpdate
+           from category"
 
 query Category
-    parameter Id schema integer not null
+    parameter Id schema integer not null  // Declares a query parameter and its schema, i.e., its type, nullability etc.
 
     result table Category
 
     source DvdRental
 
-    statement "
-        select category_id as Id, 
-               name        as Name,
-               last_update as LastUpdate
-          from category
-         where category_id = (" Id ") 
-    "</code></pre>
-
-
+    statement
+        "select category_id as Id, 
+                name        as Name,
+                last_update as LastUpdate
+           from category
+          where category_id = (" Id ")"   // Parameterized query statements may refer its parameters</code></pre>
 
 #### Execution
 {: .mt-5}
 Execute the service typing the command
 
-<pre><code class="language-bash">docker run --rm --network host -v $(pwd)/dvdrental:/marim marimplatform/service</code></pre>
+<pre class="terminal">docker run --rm --network host -v $(pwd)/dvdrental:/marim marimplatform/service</pre>
 
 
 
@@ -81,7 +77,7 @@ Execute the service typing the command
 {: .mt-5}
 Type the command below to send a request to the service.
 
-<pre><code class="language-bash">curl http://localhost:8080/rest/Categories</code></pre>
+<pre class="terminal">curl http://localhost:8080/rest/Categories</pre>
 
 The service will respond
 
@@ -93,7 +89,7 @@ The service will respond
 {: .mt-5}
 To reduce response length, Marim does not pretty-print responses, but you can easily pretty-print JSON responses piping to [jq](https://stedolan.github.io/jq/). For example, the command
 
-<pre><code class="language-bash">curl http://localhost:8080/rest/Categories | jq</code></pre>
+<pre class="terminal">curl http://localhost:8080/rest/Categories | jq</pre>
 
 results in
 
@@ -186,11 +182,11 @@ results in
 {: .mt-5}
 Set the `Accept` header to `text/csv` to get CSV responses. For instance, the command 
 
-<pre><code class="language-bash">curl -v -H "Accept: text/csv" http://localhost:8080/rest/Categories</code></pre>
+<pre class="terminal">curl -v -H "Accept: text/csv" http://localhost:8080/rest/Categories</pre>
 
 results in 
 
-<pre class="csv">Id,Name,LastUpdate
+<pre class="terminal">Id,Name,LastUpdate
 1,Action,2006-02-15T09:46:27Z
 2,Animation,2006-02-15T09:46:27Z
 3,Children,2006-02-15T09:46:27Z
@@ -214,21 +210,21 @@ results in
 {: .mt-5}
 By default, every resource of a Marim data service accepts the following parameters:
 
-- **$select** - column names the response will have;
-- **$filter** - [RSQL](https://github.com/jirutka/rsql-parser) predicate the response elements must satisfy;
-- **$orderby** - response sort criteria;
-- **$skip** - number of elements that will be excluded from the response start;
-- **$top** - maximum number of elements the response will have.
+- **_select** - column names the response will have;
+- **_filter** - [RSQL](https://github.com/jirutka/rsql-parser) predicate the response elements must satisfy;
+- **_orderby** - response sort criteria;
+- **_skip** - number of elements that will be excluded from the response start;
+- **_top** - maximum number of elements the response will have.
 
 
 
-##### $select
+##### _select
 {: .mt-5}
-<pre><code class="language-bash">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?\$select=Id,Name</code></pre>
+<pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_select=Id,Name</pre>
 
 results in 
 
-<pre class="csv">Id,Name
+<pre class="terminal">Id,Name
 1,Action
 2,Animation
 3,Children
@@ -248,13 +244,13 @@ results in
 
 
 
-##### $filter
+##### _filter
 {: .mt-5}
-<pre><code class="language-bash">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?\$filter=Name=gt=Games</code></pre>
+<pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_filter=Name=gt=Games</pre>
 
 results in 
 
-<pre class="csv">Id,Name,LastUpdate
+<pre class="terminal">Id,Name,LastUpdate
 11,Horror,2006-02-15T09:46:27Z
 12,Music,2006-02-15T09:46:27Z
 13,New,2006-02-15T09:46:27Z
@@ -264,13 +260,39 @@ results in
 
 
 
-##### $orderby
+##### _orderby
 {: .mt-5}
-<pre><code class="language-bash">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?\$orderby=Name%20desc</code></pre>
+<pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_orderby=Name%20desc</pre>
 
 results in 
 
-<pre class="csv">Id,Name,LastUpdate
+<pre class="terminal">Id,Name,LastUpdate
+16,Travel,2006-02-15T09:46:27Z
+15,Sports,2006-02-15T09:46:27Z
+14,Sci-Fi,2006-02-15T09:46:27Z
+13,New,2006-02-15T09:46:27Z
+12,Music,2006-02-15T09:46:27Z
+11,Horror,2006-02-15T09:46:27Z
+10,Games,2006-02-15T09:46:27Z
+9,Foreign,2006-02-15T09:46:27Z
+8,Family,2006-02-15T09:46:27Z
+7,Drama,2006-02-15T09:46:27Z
+6,Documentary,2006-02-15T09:46:27Z
+5,Comedy,2006-02-15T09:46:27Z
+4,Classics,2006-02-15T09:46:27Z
+3,Children,2006-02-15T09:46:27Z
+2,Animation,2006-02-15T09:46:27Z
+1,Action,2006-02-15T09:46:27Z</pre>
+
+
+
+##### _skip
+{: .mt-5}
+<pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_skip=1</pre>
+
+results in 
+
+<pre class="terminal">Id,Name,LastUpdate
 2,Animation,2006-02-15T09:46:27Z
 3,Children,2006-02-15T09:46:27Z
 4,Classics,2006-02-15T09:46:27Z
@@ -289,38 +311,13 @@ results in
 
 
 
-##### $skip
+##### _top
 {: .mt-5}
-<pre><code class="language-bash">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?\$skip=1</code></pre>
+<pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_top=1</pre>
 
 results in 
 
-<pre class="csv">Id,Name,LastUpdate
-2,Animation,2006-02-15T09:46:27Z
-3,Children,2006-02-15T09:46:27Z
-4,Classics,2006-02-15T09:46:27Z
-5,Comedy,2006-02-15T09:46:27Z
-6,Documentary,2006-02-15T09:46:27Z
-7,Drama,2006-02-15T09:46:27Z
-8,Family,2006-02-15T09:46:27Z
-9,Foreign,2006-02-15T09:46:27Z
-10,Games,2006-02-15T09:46:27Z
-11,Horror,2006-02-15T09:46:27Z
-12,Music,2006-02-15T09:46:27Z
-13,New,2006-02-15T09:46:27Z
-14,Sci-Fi,2006-02-15T09:46:27Z
-15,Sports,2006-02-15T09:46:27Z
-16,Travel,2006-02-15T09:46:27Z</pre>
-
-
-
-##### $top
-{: .mt-5}
-<pre><code class="language-bash">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?\$top=1</code></pre>
-
-results in 
-
-<pre class="csv">Id,Name,LastUpdate
+<pre class="terminal">Id,Name,LastUpdate
 1,Action,2006-02-15T09:46:27Z</pre>
 
 
@@ -329,7 +326,7 @@ results in
 {: .mt-5}
 Request the service OpenAPI specification typing the command
 
-<pre><code class="language-bash">curl http://localhost:8080/openapi</code></pre>
+<pre class="terminal">curl http://localhost:8080/openapi</pre>
 
 The service will respond
 
