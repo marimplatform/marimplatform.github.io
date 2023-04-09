@@ -4,7 +4,8 @@ layout: default
 subtitle: Tutorial
 ---
 #### Welcome
-Welcome to the Marim tutorial! Follow the steps below to develop your first data service in Marim.
+Welcome to the Marim tutorial! Follow the steps below to develop your first
+data service.
 
 
 
@@ -18,7 +19,8 @@ This tutorial makes use of a sample database. To execute it, type the command
 
 #### Project
 {: .mt-5}
-A Marim project, i.e., a set of specification files, is simply a directory. Therefore, type the following command to create a Marim project.
+A Marim project, i.e., a set of specification files, is simply a directory.
+Therefore, create the tutorial project typing the command
 
 <pre class="terminal">mkdir ./dvdrental</pre>
 
@@ -65,7 +67,9 @@ query Category
            from category
           where category_id = (" Id ")"   // Parameterized query statements may refer its parameters</code></pre>
 
-#### Execution
+
+
+#### Service execution
 {: .mt-5}
 Execute the service typing the command
 
@@ -73,27 +77,33 @@ Execute the service typing the command
 
 
 
-#### Request
+#### Query execution
 {: .mt-5}
-Type the command below to send a request to the service.
+Marim maps queries to URLs. Query identifiers become URL suffixes. Thus, to 
+execute a query, send a HTTP request to its URL. For example, to execute the 
+query `Categories`, send a request to the URL
+`http://localhost:8080/rest/Categories`. To send such request with
+[curl](https://curl.se/), type the command
 
 <pre class="terminal">curl http://localhost:8080/rest/Categories</pre>
 
 The service will respond
 
-<pre><code class="language-json">[{"Id":1,"Name":"Action","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":2,"Name":"Animation","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":3,"Name":"Children","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":4,"Name":"Classics","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":5,"Name":"Comedy","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":6,"Name":"Documentary","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":7,"Name":"Drama","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":8,"Name":"Family","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":9,"Name":"Foreign","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":10,"Name":"Games","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":11,"Name":"Horror","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":12,"Name":"Music","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":13,"Name":"New","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":14,"Name":"Sci-Fi","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":15,"Name":"Sports","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":16,"Name":"Travel","LastUpdate":"2006-02-15T09:46:27Z"}]</code></pre>
+<pre class="terminal">[{"Id":1,"Name":"Action","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":2,"Name":"Animation","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":3,"Name":"Children","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":4,"Name":"Classics","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":5,"Name":"Comedy","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":6,"Name":"Documentary","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":7,"Name":"Drama","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":8,"Name":"Family","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":9,"Name":"Foreign","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":10,"Name":"Games","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":11,"Name":"Horror","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":12,"Name":"Music","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":13,"Name":"New","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":14,"Name":"Sci-Fi","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":15,"Name":"Sports","LastUpdate":"2006-02-15T09:46:27Z"},{"Id":16,"Name":"Travel","LastUpdate":"2006-02-15T09:46:27Z"}]</pre>
 
 
 
 #### Pretty-print
 {: .mt-5}
-To reduce response length, Marim does not pretty-print responses, but you can easily pretty-print JSON responses piping to [jq](https://stedolan.github.io/jq/). For example, the command
+To reduce response length, Marim does not pretty-print responses, but you can
+easily pretty-print JSON responses piping to
+[jq](https://stedolan.github.io/jq/). For instance, the command
 
 <pre class="terminal">curl http://localhost:8080/rest/Categories | jq</pre>
 
 results in
 
-<pre><code class="language-json">[
+<pre class="terminal">[
   {
     "Id": 1,
     "Name": "Action",
@@ -174,13 +184,14 @@ results in
     "Name": "Travel",
     "LastUpdate": "2006-02-15T09:46:27Z"
   }
-]</code></pre>
+]</pre>
 
 
 
 #### CSV
 {: .mt-5}
-Set the `Accept` header to `text/csv` to get CSV responses. For instance, the command 
+Set the `Accept` HTTP request header to `text/csv` to get CSV responses. For 
+example, the command
 
 <pre class="terminal">curl -v -H "Accept: text/csv" http://localhost:8080/rest/Categories</pre>
 
@@ -208,10 +219,11 @@ results in
 
 #### Default parameters
 {: .mt-5}
-By default, every resource of a Marim data service accepts the following parameters:
+By default, every Marim data service URL accepts the following parameters:
 
 - **_select** - column names the response will have;
-- **_filter** - [RSQL](https://github.com/jirutka/rsql-parser) predicate the response elements must satisfy;
+- **_filter** - [RSQL](https://github.com/jirutka/rsql-parser) predicate 
+                the response elements must satisfy;
 - **_orderby** - response sort criteria;
 - **_skip** - number of elements that will be excluded from the response start;
 - **_top** - maximum number of elements the response will have.
@@ -220,6 +232,10 @@ By default, every resource of a Marim data service accepts the following paramet
 
 ##### _select
 {: .mt-5}
+The `_select` parameter allows one to specify which column names the response
+will include. Its value must be a comma-separated list of column names. For
+instance, the command
+
 <pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_select=Id,Name</pre>
 
 results in 
@@ -246,6 +262,10 @@ results in
 
 ##### _filter
 {: .mt-5}
+The `_filter` parameter allows one to specify which elements the response will
+include. Its value must be a [RSQL](https://github.com/jirutka/rsql-parser)
+expression. For example, the command
+
 <pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_filter=Name=gt=Games</pre>
 
 results in 
@@ -262,6 +282,11 @@ results in
 
 ##### _orderby
 {: .mt-5}
+Through the `_orderby` parameter, one can specify how the service will sort the
+response. Its value must be a comma-separated list of sort criterias, i.e., a
+column name and a sort direction (asc or desc) separated by a white space. For
+instance, the command
+
 <pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_orderby=Name%20desc</pre>
 
 results in 
@@ -288,6 +313,10 @@ results in
 
 ##### _skip
 {: .mt-5}
+The `_skip` parameter allows one to specfy how many elements will be excluded
+from the response start. Its value must be a integer greater than or equal to
+zero. For example, the command
+
 <pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_skip=1</pre>
 
 results in 
@@ -313,6 +342,10 @@ results in
 
 ##### _top
 {: .mt-5}
+The `_top` parameter allows one to specfy the maximum number of elements the 
+response will have. Its value must be a integer greater than zero. For
+instance, the command
+
 <pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_top=1</pre>
 
 results in 
@@ -330,7 +363,7 @@ Request the service OpenAPI specification typing the command
 
 The service will respond
 
-<pre><code class="language-json">{
+<pre class="terminal">{
   "openapi" : "3.0.1",
   "servers" : [ {
     "url" : "http://localhost:8080/rest"
@@ -656,7 +689,7 @@ The service will respond
       } ]
     }
   }
-}</code></pre>
+}</pre>
 
 
 
@@ -668,11 +701,12 @@ human-friendly way through the embedded
 [Swagger UI](https://swagger.io/tools/swagger-ui/) application.
 
 <div class="text-center">
-    <img src="img/swagger-ui.png" style="width: 75%">
+    <img src="img/swagger-ui.png" style="width: 100%">
 </div>
 
 
 
 #### Next steps
 {: .mt-5}
-Read the [manual](/manual.html) to learn more about Marim and start developing your own data services!
+Read the [manual](/manual.html) to learn more about Marim and start developing
+your own data services!
