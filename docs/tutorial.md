@@ -71,11 +71,35 @@ query Category
 
 #### Service execution
 {: .mt-5}
-Execute the service typing the command
+To execute the service, type the command
 
 <pre class="terminal">docker run --rm --network host -v $(pwd)/dvdrental:/marim marimplatform/service</pre>
 
+which will result in
 
+<pre class="terminal">  __  __            _
+ |  \/  |          (_)
+ | \  / | __ _ _ __ _ _ __ ___
+ | |\/| |/ _` | '__| | '_ ` _ \
+ | |  | | (_| | |  | | | | | | |
+ |_|  |_|\__,_|_|  |_|_| |_| |_| Data Services Platform
+ 
+                                         1.0.0-SNAPSHOT
+                          https://www.marimplatform.dev
+
+                        Copyright (C) 2022 Saulo Araujo
+                                    All rights reserved
+
+2023-04-09T13:37:13.530Z  INFO 1 --- [           main] dev.marimplatform.ServiceApplication     : Starting ServiceApplication using Java 17.0.6 with PID 1 (/app/classes started by root in /)
+2023-04-09T13:37:13.538Z  INFO 1 --- [           main] dev.marimplatform.ServiceApplication     : No active profile set, falling back to 1 default profile: "default"
+2023-04-09T13:37:17.333Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-04-09T13:37:17.356Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-04-09T13:37:17.357Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.7]
+2023-04-09T13:37:17.748Z  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-04-09T13:37:17.753Z  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3941 ms
+2023-04-09T13:37:24.263Z  INFO 1 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoint(s) beneath base path '/actuator'
+2023-04-09T13:37:24.563Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-04-09T13:37:24.668Z  INFO 1 --- [           main] dev.marimplatform.ServiceApplication     : Started ServiceApplication in 12.349 seconds (process running for 13.697)</pre>
 
 #### Query execution
 {: .mt-5}
