@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="logo.svg">
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="/home/saulo/Programming2/projects/marimplatform.github.io/docs/img/logo.svg.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs2">
     <filter
@@ -90,9 +93,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="-870.45618"
-     inkscape:cy="409.87486"
+     inkscape:zoom="0.9899495"
+     inkscape:cx="-87.125567"
+     inkscape:cy="433.30619"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
