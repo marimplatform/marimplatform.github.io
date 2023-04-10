@@ -50,6 +50,38 @@
          result="composite2"
          id="feComposite1169" />
     </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter1183">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood1173" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite1175" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="3"
+         result="blur"
+         id="feGaussianBlur1177" />
+      <feOffset
+         dx="6"
+         dy="6"
+         result="offset"
+         id="feOffset1179" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite1181" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -143,7 +175,7 @@
        height="99.999992"
        x="-96.091057"
        y="185.48235"
-       style="fill:#aaeeff;stroke-width:0.25660163;filter:url(#filter1171)"
+       style="fill:#aaeeff;stroke-width:0.25660163;filter:url(#filter1183)"
        transform="rotate(-28.205109,-167.54617,-162.64928)" />
     <rect
        id="rect12-5"
