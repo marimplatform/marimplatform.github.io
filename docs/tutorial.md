@@ -54,7 +54,7 @@ query Categories                          // Declares a query
            from category"
 
 query Category
-    parameter Id schema integer not null  // Declares a query parameter and its schema, i.e., its type, nullability etc.
+    parameter Id schema type integer not null  // Declares a query parameter and its schema, i.e., its type, nullability etc.
 
     result table Category
 
