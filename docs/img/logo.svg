@@ -94,17 +94,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.9899495"
-     inkscape:cx="-87.125567"
-     inkscape:cy="433.30619"
+     inkscape:cx="479.375"
+     inkscape:cy="586.74292"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="2560"
-     inkscape:window-height="1028"
-     inkscape:window-x="1366"
-     inkscape:window-y="48"
+     inkscape:window-width="1366"
+     inkscape:window-height="716"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1">
     <sodipodi:guide
        position="25.123,0"
@@ -173,13 +173,12 @@
        y="98.5"
        style="fill:#00ccff;stroke-width:0.25660163" />
     <rect
-       id="rect10-7"
-       width="25.123001"
-       height="99.999992"
-       x="-96.091057"
-       y="185.48235"
-       style="fill:#aaeeff;stroke-width:0.25660163;filter:url(#filter1183)"
-       transform="rotate(-28.205109,-167.54617,-162.64928)" />
+       id="rect12"
+       width="25.122999"
+       height="100"
+       x="131.85561"
+       y="98.5"
+       style="fill:#ff00ff;stroke-width:0.24081261" />
     <rect
        id="rect12-5"
        width="25.123001"
@@ -189,11 +188,12 @@
        style="fill:#ffff00;stroke-width:0.24081261"
        transform="rotate(28.205177)" />
     <rect
-       id="rect12"
-       width="25.122999"
-       height="100"
-       x="131.85561"
-       y="98.5"
-       style="fill:#ff00ff;stroke-width:0.24081261" />
+       id="rect10-7"
+       width="25.123001"
+       height="99.999992"
+       x="-96.091057"
+       y="185.48235"
+       style="fill:#aaeeff;stroke-width:0.25660163;filter:url(#filter1183)"
+       transform="rotate(-28.205109,-167.54617,-162.64928)" />
   </g>
 </svg>
