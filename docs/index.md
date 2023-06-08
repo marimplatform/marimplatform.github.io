@@ -26,7 +26,7 @@ subtitle: The best way from database queries to data services
     </div>
     <div class="col-sm-4">
         <h4 class="orange">Open standards</h4>
-        <p>OpenAPI, OAuth, OpenID Connect, and OpenTelemetry support</p>
+        <p>OpenAPI and OpenTelemetry support</p>
     </div>
     <div class="col-sm-4">
         <h4 class="orange">Open source</h4>
