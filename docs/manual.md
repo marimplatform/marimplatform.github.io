@@ -108,9 +108,10 @@ You can confirm this by checking the Open API specification Marim generates from
 For example, Marim generates the following Open API specification for the previous snippet:
 
 <pre class="terminal">...
-      "parameters" : [ {
+     "parameters" : [ {
         "name" : "_skip",
         "in" : "query",
+        "description" : "Number of elements that will be excluded from the response start",
         "schema" : {
           "type" : "integer",
           "format" : "int64",
@@ -120,6 +121,7 @@ For example, Marim generates the following Open API specification for the previo
       }, {
         "name" : "_top",
         "in" : "query",
+        "description" : "Maximum number of elements the response will have",
         "schema" : {
           "type" : "integer",
           "format" : "int32",
