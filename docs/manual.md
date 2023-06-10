@@ -6,7 +6,7 @@ subtitle: Manual
 
 #### Introduction
 {: .mt-5}
-Welcome to the Marim manual! Before reading it, we recommend you follow the [tutorial](tutorial.html) to have an overview of how Marim works.
+Welcome to the Marim manual! Before reading it, we strongly recommend you follow the [tutorial](tutorial.html) to have an overview of how Marim works.
 
 #### Data sources
 {: .mt-5}
@@ -177,8 +177,8 @@ Marim lets you specify the tabular structure of a query result through the `tabl
 	
     statement
         "select category_id as Id, 
-    	       name        as Name,
-    	       last_update as LastUpdate
+    	       name         as Name,
+    	       last_update  as LastUpdate
     	  from category"</code></pre>
 
 Marim supports the following column types:
@@ -193,10 +193,82 @@ Marim supports the following column types:
 |`timestamp`|Date and time                             |
 {: .table .table-bordered}
 
-##### Automatic parameters: `_select`, `_filter` and `_order`
-Unless you state otherwise, Marim automatically adds the parameters `_skip` and `top` to every query.
-You can confirm this by checking the Open API specification Marim generates from your queries.
+Marim incorporates the metadata you provide through the `table`, `column` and `type` keywords in the Open API specification of your data service.
 For example, Marim generates the following Open API specification for the previous snippet:
+
+<pre class="terminal">...
+    "/Categories" : {
+      "get" : {
+        "tags" : [ "Categories" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "Id" : {
+                        "type" : "integer",
+                        "format" : "int64"
+                      },
+                      "Name" : {
+                        "type" : "string"
+                      },
+                      "LastUpdate" : {
+                        "type" : "string",
+                        "format" : "date-time"
+                      }
+                    }
+                  }
+                }
+              },
+...
+</pre>
+
+##### Automatic parameters: `_select`, `_filter` and `_order`
+Unless you state otherwise, if you specify the structure of a query result, then Marim automatically adds the parameters `_select`, `_filter` and `_order` to it.
+For example, Marim generates the following Open API specification for the previous snippet:
+
+<pre class="terminal">...
+      "parameters" : [ {
+        "name" : "_select",
+        "in" : "query",
+        "description" : "Names of the properties or columns the response will have",
+        "style" : "form",
+        "explode" : false,
+        "schema" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "Id", "Name", "LastUpdate" ]
+          }
+        }
+      }, {
+        "name" : "_filter",
+        "in" : "query",
+        "description" : "RSQL (https://github.com/jirutka/rsql-parser#examples) predicate the response elements must satisfy",
+        "schema" : {
+          "type" : "string"
+        }
+      }, {
+        "name" : "_orderby",
+        "in" : "query",
+        "description" : "Response sort criteria",
+        "style" : "form",
+        "explode" : false,
+        "schema" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "Id asc", "Id desc", "Name asc", "Name desc", "LastUpdate asc", "LastUpdate desc" ]
+          }
+        }
+      },
+...
+</pre>
 
 #### Open Telemetry
 {: .mt-5}
