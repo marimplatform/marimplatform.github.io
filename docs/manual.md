@@ -4,11 +4,26 @@ layout: default
 subtitle: Manual
 ---
 
-#### Introduction
+#### Contents
+- [Introduction](#Introduction)
+- [Data sources](#Data sources)
+  - [Dialects](#Dialects)
+  - [URLs](#URLs)
+  - [Properties](#Properties)
+  - [URL and property value sources](#URL and property value sources)
+- [Queries](#Queries)
+  - [Anonymous data sources](#Anonymous data sources)
+  - [Automatic parameters: `_skip` and `_top`](#Automatic parameters: `_skip` and `_top`)
+  - [Result structures](#Result structures)
+  - [Automatic parameters: `_select`, `_filter` and `_order`](#Automatic parameters: `_select`, `_filter` and `_order`)
+  - [Open Telemetry](#Open Telemetry)
+  - [Command-line interface tool](#Command-line interface tool)
+
+#### Introduction <a name="Introduction"></a>
 {: .mt-5}
 Welcome to the Marim manual! Before reading it, we strongly recommend you follow the [tutorial](tutorial.html) to have an overview of how Marim works.
 
-#### Data sources
+#### Data sources <a name="Data sources"></a>
 {: .mt-5}
 The `source` keyword lets you specify data sources. For example, the snippet below specifies a data source named `DvdRental`:
 
@@ -18,7 +33,7 @@ The `source` keyword lets you specify data sources. For example, the snippet bel
     property "user"     "postgres"
     property "password" "postgres"</code></pre>
 
-##### Dialects
+##### Dialects <a name="Dialects"></a>
 You specify to which DBMS (Database Management System) a data source refers to through the `dialect` keyword. Marim supports the following dialects:
 
 |Dialect     |DBMS                                                                                                                                                                |
@@ -32,7 +47,7 @@ You specify to which DBMS (Database Management System) a data source refers to t
 |`teradata`  |[Teradata Database](https://www.teradata.com/Products/Software/Database)                                                                                            |
 {: .table .table-bordered}
 
-##### URLs
+##### URLs <a name="URLs"></a>
 You give Marim the JDBC (Java Database Connectivity) URL of the database the data source refers to through the `url` keyword.
 The table below shows the JDBC driver Marim bundles for each dialect, and gives links to the sections in their documentations that discusses their URL formats.
 
@@ -47,11 +62,11 @@ The table below shows the JDBC driver Marim bundles for each dialect, and gives 
 |`teradata`  |com.teradata.jdbc       |terajdbc         |20.00.00.10 |<https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/frameset.html>                                            |
 {: .table .table-bordered}
 
-##### Properties
+##### Properties <a name="Properties"></a>
 The `property` keyword must be followed by a property name and value. The JDBC specification requires that every driver must support the properties `user` and `password`,
 which define the name and password of the user with which the driver will connect to the database.
 
-##### URL and property value sources
+##### URL and property value sources <a name="URL and property value sources"></a>
 The `file` keyword, which can be used together with the `url` and `property` keywords, 
 instruct Marim to set the content of a file as the URL of a data source or the value of a property.
 The same applies to the `variable` keyword. In this case, however, Marim will set the content of an environment variable as the URL of a data source or the value of a property. 
@@ -65,7 +80,7 @@ and the content of the `/var/run/secrets/dvd_rental/password.txt` file as the va
     property "password" file "/var/run/secrets/dvd_rental/password.txt"
 </code></pre>
 
-#### Queries
+#### Queries <a name="Queries"></a>
 {: .mt-5}
 The `query` keyword lets you specify a query. A query specification is comprised, at least, of a SQL statement and the data source in which it will be executed.
 
@@ -84,7 +99,7 @@ query Categories
                 last_update as LastUpdate
         from category"</code></pre>
 
-##### Anonymous data sources
+##### Anonymous data sources <a name="Anonymous data sources"></a>
 The specification of the data source in which a query will be executed can be provided directly in the query specification.
 In this case, however, the `source` keyword cannot be followed by an identifier, rendering it an anonymous data source,
 and preventing other queries from referring to it. For example, in the snippet below, the data source of the `Categories` query is an anonymous one:
@@ -102,7 +117,7 @@ and preventing other queries from referring to it. For example, in the snippet b
                 last_update as LastUpdate
            from category"</code></pre>
 
-##### Automatic parameters: `_skip` and `_top`
+##### Automatic parameters: `_skip` and `_top` <a name="Automatic parameters: `_skip` and `_top`"></a>
 Unless you state otherwise, Marim automatically adds the parameters `_skip` and `top` to every query.
 You can confirm this by checking the Open API specification Marim generates from your queries.
 For example, Marim generates the following Open API specification for the previous snippet:
@@ -163,7 +178,7 @@ For example, the snippet below instructs Marim to add only the `_top` parameter 
                 last_update as LastUpdate
            from category"</code></pre>
 
-##### Result structures
+##### Result structures <a name="Result structures"></a>
 Marim lets you specify the tabular structure of a query result through the `table`, `column` and `type` keywords, as in the snippet below:
 
 <pre><code class="language-marim">query Categories
@@ -228,7 +243,7 @@ For example, Marim generates the following Open API specification for the previo
 ...
 </pre>
 
-##### Automatic parameters: `_select`, `_filter` and `_order`
+##### Automatic parameters: `_select`, `_filter` and `_order` <a name="Automatic parameters: `_select`, `_filter` and `_order`"></a>
 Unless you state otherwise, if you specify the structure of a query result, then Marim automatically adds the parameters `_select`, `_filter` and `_order` to it.
 For example, Marim generates the following Open API specification for the previous snippet:
 
@@ -270,8 +285,8 @@ For example, Marim generates the following Open API specification for the previo
 ...
 </pre>
 
-#### Open Telemetry
+#### Open Telemetry <a name="Open Telemetry"></a>
 {: .mt-5}
 
-#### Command-line interface tool
+#### Command-line interface tool <a name="Command-line interface tool"></a>
 {: .mt-5}
