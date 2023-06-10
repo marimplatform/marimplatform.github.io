@@ -148,7 +148,7 @@ To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, us
            from category"</code></pre>
 
 You can instruct Marim to add the parameters `_skip` and/or `_top` again with the keywords `paginable` and/or `limitable`.
-For example, the snippet below instructs Marim to add only the `_top` parameter to Categories query:
+For example, the snippet below instructs Marim to add only the `_top` parameter to the Categories query:
 
 <pre><code class="language-marim">query Categories
     source DvdRental
