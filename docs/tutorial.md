@@ -245,7 +245,7 @@ results in
 {: .mt-5}
 By default, every Marim data service URL accepts the following parameters:
 
-- **_select** - column names the response will have;
+- **_select** - names of the properties or columns the response will have;
 - **_filter** - [RSQL](https://github.com/jirutka/rsql-parser) predicate 
                 the response elements must satisfy;
 - **_orderby** - response sort criteria;
