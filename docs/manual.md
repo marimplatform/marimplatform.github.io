@@ -19,7 +19,7 @@ The `source` keyword lets you specify data sources. For example, the snippet bel
     property "password" "postgres"</code></pre>
 
 ##### Dialects
-You specify to which DBMS (Database Management System) a data source refers to through the keyword `dialect`. Marim supports the following dialects:
+You specify to which DBMS (Database Management System) a data source refers to through the `dialect` keyword. Marim supports the following dialects:
 
 |Dialect     |DBMS                                                                                                                                                                |
 |------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -33,7 +33,7 @@ You specify to which DBMS (Database Management System) a data source refers to t
 {: .table .table-bordered}
 
 ##### URLs
-You give Marim the JDBC (Java Database Connectivity) URL of the database the data source refers to through the keyword `url`.
+You give Marim the JDBC (Java Database Connectivity) URL of the database the data source refers to through the `url` keyword.
 The table below shows the JDBC driver Marim bundles for each dialect, and gives links to the sections in their documentations that discusses their URL formats.
 
 |Dialect     |GroupId                 |ArtifactId       |Version     |More information                                                                                                                          |
@@ -48,13 +48,13 @@ The table below shows the JDBC driver Marim bundles for each dialect, and gives 
 {: .table .table-bordered}
 
 ##### Properties
-The keyword `property` must be followed by a property name and value. The JDBC specification requires that every driver must support the properties `user` and `password`,
+The `property` keyword must be followed by a property name and value. The JDBC specification requires that every driver must support the properties `user` and `password`,
 which define the name and password of the user with which the driver will connect to the database.
 
 ##### URL and property value sources
-The keyword `file`, which can be used together with the keywords `url` and `property`, 
+The `file` keyword, which can be used together with the `url` and `property` keywords, 
 instruct Marim to set the content of a file as the URL of a data source or the value of a property.
-The same applies to the keyword `variable`. In this case, however, Marim will set the content of an environment variable as the URL of a data source or the value of a property. 
+The same applies to the `variable` keyword. In this case, however, Marim will set the content of an environment variable as the URL of a data source or the value of a property. 
 For example, in the snippet below, Marim will set the content of the `DVD_RENTAL_URL` environment variable as the URL of the `DvdRental` data source, 
 and the content of the `/var/run/secrets/dvd_rental/password.txt` file as the value of the `password` property.
 
@@ -67,7 +67,7 @@ and the content of the `/var/run/secrets/dvd_rental/password.txt` file as the va
 
 #### Queries
 {: .mt-5}
-The keyword `query` lets you specify a query. A query specification is comprised, at least, of a SQL statement and the data source in which it will be executed.
+The `query` keyword lets you specify a query. A query specification is comprised, at least, of a SQL statement and the data source in which it will be executed.
 
 <pre><code class="language-marim">source DvdRental
     dialect  postgresql
@@ -86,7 +86,7 @@ query Categories
 
 ##### Anonymous data sources
 The specification of the data source in which a query will be executed can be provided directly in the query specification.
-In this case, however, the keyword `source` cannot be followed by an identifier, rendering it an anonymous data source,
+In this case, however, the `source` keyword cannot be followed by an identifier, rendering it an anonymous data source,
 and preventing other queries from referring to it. For example, in the snippet below, the data source of the `Categories` query is an anonymous one:
 
 <pre><code class="language-marim">query Categories
@@ -102,7 +102,7 @@ and preventing other queries from referring to it. For example, in the snippet b
                 last_update as LastUpdate
            from category"</code></pre>
 
-##### Automatic parameters: _skip and _top
+##### Automatic parameters: `_skip` and `_top`
 Unless you state otherwise, Marim automatically adds the parameters `_skip` and `top` to every query.
 You can confirm this by checking the Open API specification Marim generates from your queries.
 For example, Marim generates the following Open API specification for the previous snippet:
@@ -132,7 +132,7 @@ For example, Marim generates the following Open API specification for the previo
 ...
 </pre>
 
-To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, use the keyword `result` followed by the keyword `unpaginable` and/or `unlimitable`, as in the snippet below:
+To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, use the `result` keyword followed by the `unpaginable` and/or `unlimitable` keyword, as in the snippet below:
 
 <pre><code class="language-marim">query Categories
     source DvdRental
@@ -147,8 +147,8 @@ To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, us
                 last_update as LastUpdate
            from category"</code></pre>
 
-You can instruct Marim to add the parameters `_skip` and/or `_top` again with the keywords `paginable` and/or `limitable`.
-For example, the snippet below instructs Marim to add only the `_top` parameter to the Categories query:
+You can instruct Marim to add the parameters `_skip` and/or `_top` again with the `paginable` and/or `limitable` keywords.
+For example, the snippet below instructs Marim to add only the `_top` parameter to the `Categories` query:
 
 <pre><code class="language-marim">query Categories
     source DvdRental
@@ -162,6 +162,41 @@ For example, the snippet below instructs Marim to add only the `_top` parameter 
                 name        as Name,
                 last_update as LastUpdate
            from category"</code></pre>
+
+##### Result structures
+Marim lets you specify the tabular structure of a query result through the `table`, `column` and `type` keywords, as in the snippet below:
+
+<pre><code class="language-marim">query Categories
+    result
+        table
+            column Id         type integer
+            column Name       type string
+            column LastUpdate type timestamp		
+
+	source DvdRental	
+	
+    statement
+        "select category_id as Id, 
+    	       name        as Name,
+    	       last_update as LastUpdate
+    	  from category"</code></pre>
+
+Marim supports the following column types:
+
+|Keyword    |Description                               |
+|-----------|------------------------------------------|
+|`integer`  |64 bit integer                            |
+|`decimal`  |Arbitrary-precision signed decimal numbers|
+|`string`   |Arbitraty lengh character string          |
+|`date`     |Date                                      |
+|`time`     |Time                                      |
+|`timestamp`|Date and time                             |
+{: .table .table-bordered}
+
+##### Automatic parameters: `_select`, `_filter` and `_order`
+Unless you state otherwise, Marim automatically adds the parameters `_skip` and `top` to every query.
+You can confirm this by checking the Open API specification Marim generates from your queries.
+For example, Marim generates the following Open API specification for the previous snippet:
 
 #### Open Telemetry
 {: .mt-5}
