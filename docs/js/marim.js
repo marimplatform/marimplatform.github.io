@@ -36,7 +36,7 @@
 				t = "[\xc0-\u02b8a-zA-Z_$][\xc0-\u02b8a-zA-Z_$0-9]*",
 				i = t + s("(?:<" + t + "~~~(?:\\s*,\\s*" + t + "~~~)*>)?", /~~~/g, 2),
 				r = {
-					keyword: ["array", "column", "const", "dialect", "driver", "enum", "exclusiveMaximum", "exclusiveMinimum", "file", "filterable", "items", "limitable", "maxItems", "maxLength", "maximum", "minItems", "minLength", "minimum", "multipleOf", "not", "paginable", "parameter", "pattern", "projectable", "property", "query", "result", "schema", "sortable", "source", "statement", "table", "type", "unfilterable", "uniqueItems", "unlimitable", "unpaginable", "unprojectable", "unsortable", "url", "variable", "false", "null", "true"], 
+					keyword: ["array", "column", "const", "dialect", "driver", "enum", "exclusiveMaximum", "exclusiveMinimum", "file", "filterable", "items", "limitable", "maxItems", "maxLength", "maximum", "minItems", "minLength", "minimum", "multipleOf", "not", "parameter", "pattern", "projectable", "property", "query", "result", "schema", "skippable", "sortable", "source", "statement", "table", "type", "unfilterable", "uniqueItems", "unlimitable", "unprojectable", "unskippable", "unsortable", "url", "variable", "false", "null", "true"], 
 					literal: [], 
 					type: ["date", "decimal", "integer", "string", "time", "timestamp", "calcite", "db2", "mysql", "oracle", "postgresql", "sqlserver", "teradata"], 
 					built_in: ["super", "this"]

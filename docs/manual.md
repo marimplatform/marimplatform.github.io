@@ -16,8 +16,8 @@ subtitle: Manual
   - [Automatic parameters: `_skip` and `_top`](#Automatic parameters: `_skip` and `_top`)
   - [Result structures](#Result structures)
   - [Automatic parameters: `_select`, `_filter` and `_order`](#Automatic parameters: `_select`, `_filter` and `_order`)
-  - [Open Telemetry](#Open Telemetry)
-  - [Command-line interface tool](#Command-line interface tool)
+- [Open Telemetry](#Open Telemetry)
+- [Command-line interface tool](#Command-line interface tool)
 
 #### Introduction <a name="Introduction"></a>
 {: .mt-5}
@@ -147,13 +147,13 @@ For example, Marim generates the following Open API specification for the previo
 ...
 </pre>
 
-To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, use the `result` keyword followed by the `unpaginable` and/or `unlimitable` keyword, as in the snippet below:
+To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, use the `result` keyword followed by the `unskippable` and/or `unlimitable` keyword, as in the snippet below:
 
 <pre><code class="language-marim">query Categories
     source DvdRental
 
     result
-        unpaginable
+        unskippable
         unlimitable
 
     statement
@@ -162,14 +162,14 @@ To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, us
                 last_update as LastUpdate
            from category"</code></pre>
 
-You can instruct Marim to add the parameters `_skip` and/or `_top` again with the `paginable` and/or `limitable` keywords.
+You can instruct Marim to add the parameters `_skip` and/or `_top` again with the `skippable` and/or `limitable` keywords.
 For example, the snippet below instructs Marim to add only the `_top` parameter to the `Categories` query:
 
 <pre><code class="language-marim">query Categories
     source DvdRental
 
     result
-        unpaginable
+        unskippable
         limitable
 
     statement
@@ -284,6 +284,49 @@ For example, Marim generates the following Open API specification for the previo
       },
 ...
 </pre>
+
+To prevent Marim from adding the `_select`, `_filter` and/or `_order` parameters to a query, use the `unprojectable`, `unfilterable` and/or `unsortable` keywords, as in the snippet below:
+
+<pre><code class="language-marim">query Categories
+    result
+        unprojectable
+        unfilterable
+        unsortable
+        table
+            column Id         type integer
+            column Name       type string
+            column LastUpdate type timestamp		
+
+	source DvdRental	
+	
+    statement
+        "select category_id as Id, 
+    	       name         as Name,
+    	       last_update  as LastUpdate
+    	  from category"</code></pre>
+
+You can instruct Marim to add the parameters `_select`, `_filter`, and/or `_top` again with the `projectable`, `filterable` and/or `sortable` keywords.
+For example, the snippet below instructs Marim to add only the `_skip` and `_top` parameters to the `Categories` query:
+
+<pre><code class="language-marim">query Categories
+    result
+        table
+            column Id         type integer
+            column Name       type string
+            column LastUpdate type timestamp		
+        skippable
+        limitable
+        unprojectable
+        unfilterable
+        unsortable
+
+	source DvdRental	
+	
+    statement
+        "select category_id as Id, 
+    	       name         as Name,
+    	       last_update  as LastUpdate
+    	  from category"</code></pre>
 
 #### Open Telemetry <a name="Open Telemetry"></a>
 {: .mt-5}
