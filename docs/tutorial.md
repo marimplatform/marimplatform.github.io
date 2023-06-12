@@ -245,7 +245,7 @@ results in
 {: .mt-5}
 By default, every Marim data service URL accepts the following parameters:
 
-- **_select** - names of the properties or columns the response will have;
+- **_select** - names of the properties/columns the response will have;
 - **_filter** - [RSQL](https://github.com/jirutka/rsql-parser) predicate 
                 the response elements must satisfy;
 - **_orderby** - response sort criteria;
@@ -256,8 +256,8 @@ By default, every Marim data service URL accepts the following parameters:
 
 ##### _select
 {: .mt-5}
-The `_select` parameter allows one to specify which column names the response
-will include. Its value must be a comma-separated list of column names. For
+The `_select` parameter allows one to specify which property/column names the response
+will include. Its value must be a comma-separated list of property/column names. For
 instance, the command
 
 <pre class="terminal">curl -H "Accept: text/csv" http://localhost:8080/rest/Categories?_select=Id,Name</pre>

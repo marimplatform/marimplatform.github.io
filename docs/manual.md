@@ -15,7 +15,8 @@ subtitle: Manual
   - [Anonymous data sources](#Anonymous data sources)
   - [Automatic parameters: `_skip` and `_top`](#Automatic parameters: `_skip` and `_top`)
   - [Result structures](#Result structures)
-  - [Automatic parameters: `_select`, `_filter` and `_order`](#Automatic parameters: `_select`, `_filter` and `_order`)
+  - [Automatic parameters: `_select`, `_filter` and `_orderby`](#Automatic parameters: `_select`, `_filter` and `_orderby`)
+  - [Parameters](#Parameters)  
 - [Open Telemetry](#Open Telemetry)
 - [Command-line interface tool](#Command-line interface tool)
 
@@ -76,7 +77,7 @@ and the content of the `/var/run/secrets/dvd_rental/password.txt` file as the va
 <pre><code class="language-marim">source DvdRental
     dialect  postgresql
     url      variable "DVD_RENTAL_URL"
-    property "user"     "postgres"
+    property "user"          "postgres"
     property "password" file "/var/run/secrets/dvd_rental/password.txt"
 </code></pre>
 
@@ -97,7 +98,7 @@ query Categories
         "select category_id as Id, 
                 name        as Name,
                 last_update as LastUpdate
-        from category"</code></pre>
+           from category"</code></pre>
 
 ##### Anonymous data sources <a name="Anonymous data sources"></a>
 The specification of the data source in which a query will be executed can be provided directly in the query specification.
@@ -188,24 +189,24 @@ Marim lets you specify the tabular structure of a query result through the `tabl
             column Name       type string
             column LastUpdate type timestamp		
 
-	source DvdRental	
-	
+    source DvdRental	
+  
     statement
-        "select category_id as Id, 
-    	       name         as Name,
-    	       last_update  as LastUpdate
-    	  from category"</code></pre>
+        "select category_id  as Id, 
+                name         as Name,
+                last_update  as LastUpdate
+           from category"</code></pre>
 
 Marim supports the following column types:
 
-|Keyword    |Description                               |
-|-----------|------------------------------------------|
-|`integer`  |64 bit integer                            |
-|`decimal`  |Arbitrary-precision signed decimal numbers|
-|`string`   |Arbitraty lengh character string          |
-|`date`     |Date                                      |
-|`time`     |Time                                      |
-|`timestamp`|Date and time                             |
+|Type keyword|Description                               |
+|------------|------------------------------------------|
+|`integer`   |64 bit integer                            |
+|`decimal`   |Arbitrary-precision signed decimal numbers|
+|`string`    |Arbitraty lengh character string          |
+|`date`      |Date                                      |
+|`time`      |Time                                      |
+|`timestamp` |Date and time                             |
 {: .table .table-bordered}
 
 Marim incorporates the metadata you provide through the `table`, `column` and `type` keywords in the Open API specification of your data service.
@@ -243,15 +244,15 @@ For example, Marim generates the following Open API specification for the previo
 ...
 </pre>
 
-##### Automatic parameters: `_select`, `_filter` and `_order` <a name="Automatic parameters: `_select`, `_filter` and `_order`"></a>
-Unless you state otherwise, if you specify the structure of a query result, then Marim automatically adds the parameters `_select`, `_filter` and `_order` to it.
+##### Automatic parameters: `_select`, `_filter` and `_orderby` <a name="Automatic parameters: `_select`, `_filter` and `_orderby`"></a>
+Unless you state otherwise, if you specify the structure of a query result, then Marim automatically adds the parameters `_select`, `_filter` and `_orderby` to it.
 For example, Marim generates the following Open API specification for the previous snippet:
 
 <pre class="terminal">...
       "parameters" : [ {
         "name" : "_select",
         "in" : "query",
-        "description" : "Names of the properties or columns the response will have",
+        "description" : "Names of the properties/columns the response will have",
         "style" : "form",
         "explode" : false,
         "schema" : {
@@ -285,7 +286,7 @@ For example, Marim generates the following Open API specification for the previo
 ...
 </pre>
 
-To prevent Marim from adding the `_select`, `_filter` and/or `_order` parameters to a query, use the `unprojectable`, `unfilterable` and/or `unsortable` keywords, as in the snippet below:
+To prevent Marim from adding the `_select`, `_filter` and/or `_orderby` parameters to a query, use the `unprojectable`, `unfilterable` and/or `unsortable` keywords, as in the snippet below:
 
 <pre><code class="language-marim">query Categories
     result
@@ -295,15 +296,15 @@ To prevent Marim from adding the `_select`, `_filter` and/or `_order` parameters
         table
             column Id         type integer
             column Name       type string
-            column LastUpdate type timestamp		
+            column LastUpdate type timestamp
 
-	source DvdRental	
-	
+    source DvdRental
+  
     statement
         "select category_id as Id, 
-    	       name         as Name,
-    	       last_update  as LastUpdate
-    	  from category"</code></pre>
+                name        as Name,
+                last_update as LastUpdate
+          from category"</code></pre>
 
 You can instruct Marim to add the parameters `_select`, `_filter`, and/or `_top` again with the `projectable`, `filterable` and/or `sortable` keywords.
 For example, the snippet below instructs Marim to add only the `_skip` and `_top` parameters to the `Categories` query:
@@ -320,13 +321,15 @@ For example, the snippet below instructs Marim to add only the `_skip` and `_top
         unfilterable
         unsortable
 
-	source DvdRental	
-	
+    source DvdRental	
+  
     statement
         "select category_id as Id, 
-    	       name         as Name,
-    	       last_update  as LastUpdate
-    	  from category"</code></pre>
+                name        as Name,
+                last_update as LastUpdate
+           from category"</code></pre>
+
+##### Parameters <a name="Parameters"></a>
 
 #### Open Telemetry <a name="Open Telemetry"></a>
 {: .mt-5}
