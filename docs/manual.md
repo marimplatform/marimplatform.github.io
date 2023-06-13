@@ -16,6 +16,7 @@ subtitle: Manual
   - [Automatic parameters: `_skip` and `_top`](#Automatic parameters: `_skip` and `_top`)
   - [Result structures](#Result structures)
   - [Automatic parameters: `_select`, `_filter` and `_orderby`](#Automatic parameters: `_select`, `_filter` and `_orderby`)
+  - [Named Result structures](#Named Result structures)
   - [Parameters](#Parameters)  
 - [Open Telemetry](#Open Telemetry)
 - [Command-line interface tool](#Command-line interface tool)
@@ -105,7 +106,13 @@ The specification of the data source in which a query will be executed can be pr
 In this case, however, the `source` keyword cannot be followed by an identifier, rendering it an anonymous data source,
 and preventing other queries from referring to it. For example, in the snippet below, the data source of the `Categories` query is an anonymous one:
 
-<pre><code class="language-marim">query Categories
+<pre><code class="language-marim">source DvdRental
+    dialect  postgresql
+    url      "jdbc:postgresql://localhost:5432/dvdrental"
+    property "user"     "postgres"
+    property "password" "postgres"
+
+query Categories
     source
         dialect  postgresql
         url      "jdbc:postgresql://localhost:5432/dvdrental"
@@ -150,12 +157,18 @@ For example, Marim generates the following Open API specification for the previo
 
 To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, use the `result` keyword followed by the `unskippable` and/or `unlimitable` keyword, as in the snippet below:
 
-<pre><code class="language-marim">query Categories
-    source DvdRental
+<pre><code class="language-marim">source DvdRental
+    dialect  postgresql
+    url      "jdbc:postgresql://localhost:5432/dvdrental"
+    property "user"     "postgres"
+    property "password" "postgres"
 
+query Categories
     result
         unskippable
         unlimitable
+
+    source DvdRental
 
     statement
         "select category_id as Id, 
@@ -166,12 +179,18 @@ To prevent Marim from adding the `_skip` and/or `_top` parameters to a query, us
 You can instruct Marim to add the parameters `_skip` and/or `_top` again with the `skippable` and/or `limitable` keywords.
 For example, the snippet below instructs Marim to add only the `_top` parameter to the `Categories` query:
 
-<pre><code class="language-marim">query Categories
-    source DvdRental
+<pre><code class="language-marim">source DvdRental
+    dialect  postgresql
+    url      "jdbc:postgresql://localhost:5432/dvdrental"
+    property "user"     "postgres"
+    property "password" "postgres"
 
+query Categories
     result
         unskippable
         limitable
+
+    source DvdRental
 
     statement
         "select category_id as Id, 
@@ -182,7 +201,13 @@ For example, the snippet below instructs Marim to add only the `_top` parameter 
 ##### Result structures <a name="Result structures"></a>
 Marim lets you specify the tabular structure of a query result through the `table`, `column` and `type` keywords, as in the snippet below:
 
-<pre><code class="language-marim">query Categories
+<pre><code class="language-marim">source DvdRental
+    dialect  postgresql
+    url      "jdbc:postgresql://localhost:5432/dvdrental"
+    property "user"     "postgres"
+    property "password" "postgres"
+
+query Categories
     result
         table
             column Id         type integer
@@ -288,15 +313,21 @@ For example, Marim generates the following Open API specification for the previo
 
 To prevent Marim from adding the `_select`, `_filter` and/or `_orderby` parameters to a query, use the `unprojectable`, `unfilterable` and/or `unsortable` keywords, as in the snippet below:
 
-<pre><code class="language-marim">query Categories
+<pre><code class="language-marim">source DvdRental
+    dialect  postgresql
+    url      "jdbc:postgresql://localhost:5432/dvdrental"
+    property "user"     "postgres"
+    property "password" "postgres"
+
+query Categories
     result
-        unprojectable
-        unfilterable
-        unsortable
         table
             column Id         type integer
             column Name       type string
             column LastUpdate type timestamp
+        unprojectable
+        unfilterable
+        unsortable
 
     source DvdRental
   
@@ -309,17 +340,55 @@ To prevent Marim from adding the `_select`, `_filter` and/or `_orderby` paramete
 You can instruct Marim to add the parameters `_select`, `_filter`, and/or `_top` again with the `projectable`, `filterable` and/or `sortable` keywords.
 For example, the snippet below instructs Marim to add only the `_skip` and `_top` parameters to the `Categories` query:
 
-<pre><code class="language-marim">query Categories
+<pre><code class="language-marim">source DvdRental
+    dialect  postgresql
+    url      "jdbc:postgresql://localhost:5432/dvdrental"
+    property "user"     "postgres"
+    property "password" "postgres"
+
+query Categories
     result
         table
             column Id         type integer
             column Name       type string
             column LastUpdate type timestamp		
-        skippable
-        limitable
         unprojectable
         unfilterable
         unsortable
+        skippable
+        limitable
+
+    source DvdRental	
+  
+    statement
+        "select category_id as Id, 
+                name        as Name,
+                last_update as LastUpdate
+           from category"</code></pre>
+
+##### Named result structures <a name="Named Result structures"></a>
+The `table` keyword also lets you name a tabular structure and refer to it through this name. For example, the snippet below specifies the
+`CategoryTable` structure, which the Categories query refers to, and is equivalent to the previous snippet.
+
+<pre><code class="language-marim">table CategoryTable
+    column Id         type integer
+    column Name       type string
+    column LastUpdate type timestamp	
+    
+source DvdRental
+    dialect  postgresql
+    url      "jdbc:postgresql://localhost:5432/dvdrental"
+    property "user"     "postgres"
+    property "password" "postgres"	
+
+query Categories
+    result
+        table CategoryTable
+        unprojectable
+        unfilterable
+        unsortable        
+        skippable
+        limitable
 
     source DvdRental	
   
